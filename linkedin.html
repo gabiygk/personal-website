@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Spark — Gabi de Sá</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Syne:wght@400..800&family=Crimson+Pro:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow-x: hidden; }
+
+    .project-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(249,249,247,0.97) 0%, transparent 100%);
+    }
+    .back-link {
+      font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #888888; text-decoration: none; transition: color 0.2s;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .back-link::before { content: '←'; font-family: monospace; }
+    .back-link:hover { color: #111111; }
+    .project-nav-name {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.82rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #111111;
+    }
+
+    /* ── HERO ── */
+    .project-hero {
+      min-height: 60vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 4rem 5rem;
+      position: relative; overflow: hidden;
+      background: var(--bg);
+    }
+    .project-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at 85% 25%, rgba(0,0,0,0.03) 0%, transparent 70%),
+        var(--bg);
+    }
+    .project-hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .project-hero-content { position: relative; z-index: 1; margin-top: auto; }
+    .project-tag {
+      font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.32em; text-transform: uppercase; color: #111111;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .project-tag::before {
+      content: ''; display: block;
+      width: 40px; height: 1px; background: #111111;
+    }
+    .project-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 7rem);
+      font-weight: 900; line-height: 0.92; letter-spacing: -0.03em;
+      color: #111111; margin-bottom: 2rem;
+    }
+    .project-title em { font-style: italic; }
+    .project-meta {
+      display: flex; gap: 3rem; flex-wrap: wrap; align-items: flex-start;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .meta-label {
+      font-family: 'Syne', sans-serif; font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.26em; text-transform: uppercase; color: #888888;
+    }
+    .meta-value {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1rem; color: #222222;
+    }
+    .winner-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      background: #111111; color: #f9f9f7;
+      padding: 0.4rem 0.9rem; border-radius: 2px;
+      margin-top: 1.8rem;
+    }
+    .winner-badge::before { content: '★'; }
+
+    /* ── BODY ── */
+    .project-body { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+
+    .desc-section {
+      padding: 6rem 0 4rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .desc-section .section-label { margin-bottom: 2.5rem; }
+    .desc-text {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.25rem; line-height: 1.85; color: #333333;
+      max-width: 820px;
+    }
+
+    /* ── VIDEO ── */
+    .video-section {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .video-section .section-label { margin-bottom: 2rem; }
+    .video-wrap {
+      width: 100%; background: #111111; overflow: hidden;
+    }
+    .video-wrap video {
+      width: 100%; display: block;
+      max-height: 680px; object-fit: contain;
+      background: #111111;
+    }
+
+    /* ── GALLERY ── */
+    .gallery-section {
+      padding: 4rem 0 6rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .gallery-section .section-label { margin-bottom: 2.5rem; }
+
+    .gallery-act { margin-bottom: 2.5rem; }
+    .act-label {
+      font-family: 'Syne', sans-serif; font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase; color: #888888;
+      margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .act-label::after {
+      content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.08);
+    }
+
+    .act-build { display: grid; grid-template-columns: 1fr; }
+    .act-build .gallery-img { aspect-ratio: 16/9; }
+
+    .act-pitch { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .act-pitch .gallery-img { aspect-ratio: 3/4; }
+
+    .act-win { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .act-win .gallery-img { aspect-ratio: 4/3; }
+
+    .gallery-img {
+      overflow: hidden; background: #e8e8e6;
+    }
+    .gallery-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .gallery-img:hover img { transform: scale(1.04); }
+
+    /* ── FOOTER ── */
+    .project-footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .project-footer span {
+      font-family: 'Syne', sans-serif; font-size: 0.68rem;
+      letter-spacing: 0.15em; color: #888888; opacity: 0.45;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      .project-nav { padding: 1rem 1.5rem; }
+      .project-hero { padding: 0 1.5rem 3.5rem; }
+      .project-body { padding: 0 1.5rem; }
+      .act-pitch, .act-win { grid-template-columns: 1fr; }
+      .act-pitch .gallery-img, .act-win .gallery-img { aspect-ratio: 4/3; }
+      .project-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="project-nav">
+    <a class="back-link" href="index.html">Back</a>
+    <span class="project-nav-name">Gabi de Sá</span>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="project-hero">
+    <div class="project-hero-bg"></div>
+    <div class="project-hero-content">
+      <div class="project-tag">05 / SWE · Product · Mobile Development</div>
+      <h1 class="project-title">
+        LinkedIn<br><em>Spark</em>
+      </h1>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Context</span>
+          <span class="meta-value">LinkedIn 2025 Sophomore Hackathon</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Stack</span>
+          <span class="meta-value">Mobile · AI · Gamification</span>
+        </div>
+      </div>
+      <div class="winner-badge">Hackathon Winner</div>
+    </div>
+  </div>
+
+  <div class="project-body">
+
+    <!-- Description -->
+    <div class="desc-section reveal">
+      <div class="section-label">Overview</div>
+      <p class="desc-text">
+        LinkedIn Spark is an AI-powered feature built to spark meaningful coffee chats on the
+        platform. The idea: most LinkedIn connections go nowhere — people follow each other but
+        rarely actually talk. Spark blends gamification and AI to help users build more
+        intentional, genuine professional connections, nudging passive networks into real
+        conversations. Built and pitched at LinkedIn's 2025 Sophomore Hackathon, where our team won.
+      </p>
+    </div>
+
+    <!-- Video -->
+    <div class="video-section reveal d1">
+      <div class="section-label">Demo</div>
+      <div class="video-wrap">
+        <video controls preload="metadata" playsinline>
+          <source src="images/linkedin/linkedin-video.mp4" type="video/mp4">
+          <source src="images/linkedin/linkedin-video.mov" type="video/quicktime">
+        </video>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section reveal d2">
+      <div class="section-label">The Day</div>
+
+      <div class="gallery-act">
+        <div class="act-label">Building</div>
+        <div class="act-build">
+          <div class="gallery-img">
+            <img src="images/linkedin/linkedin1.jpg" alt="Building LinkedIn Spark">
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-act">
+        <div class="act-label">Pitching</div>
+        <div class="act-pitch">
+          <div class="gallery-img">
+            <img src="images/linkedin/linkedin4.jpg" alt="Presenting LinkedIn Spark">
+          </div>
+          <div class="gallery-img">
+            <img src="images/linkedin/linkedin3.JPG" alt="LinkedIn Sophomore Hackathon 2025">
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-act">
+        <div class="act-label">Winning</div>
+        <div class="act-win">
+          <div class="gallery-img">
+            <img src="images/linkedin/linkedin5.JPG" alt="Winning the hackathon">
+          </div>
+          <div class="gallery-img">
+            <img src="images/linkedin/linkedin2.jpg" alt="Team with Apple Watch prizes">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="project-footer">
+    <span>© 2025 Gabriela de Sá</span>
+    <span>web.stanford.edu/~gabisa</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

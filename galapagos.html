@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galápagos — Gabi de Sá</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Syne:wght@400..800&family=Crimson+Pro:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── PROJECT PAGE OVERRIDES ── */
+    body { overflow-x: hidden; }
+
+    .project-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(249,249,247,0.97) 0%, transparent 100%);
+    }
+    .back-link {
+      font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #888888; text-decoration: none; transition: color 0.2s;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .back-link::before { content: '←'; font-family: monospace; }
+    .back-link:hover { color: #111111; }
+    .project-nav-name {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.82rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #111111;
+    }
+
+    /* ── HERO ── */
+    .project-hero {
+      min-height: 60vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 4rem 5rem;
+      position: relative; overflow: hidden;
+      background: var(--bg);
+    }
+    .project-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(0,0,0,0.03) 0%, transparent 70%),
+        var(--bg);
+    }
+    .project-hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .project-hero-content { position: relative; z-index: 1; margin-top: auto; }
+    .project-tag {
+      font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.32em; text-transform: uppercase; color: #111111;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .project-tag::before {
+      content: ''; display: block;
+      width: 40px; height: 1px; background: #111111;
+    }
+    .project-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 7rem);
+      font-weight: 900; line-height: 0.92; letter-spacing: -0.03em;
+      color: #111111; margin-bottom: 2rem;
+    }
+    .project-title em { font-style: italic; }
+    .project-meta {
+      display: flex; gap: 3rem; flex-wrap: wrap; align-items: flex-start;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .meta-label {
+      font-family: 'Syne', sans-serif; font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.26em; text-transform: uppercase; color: #888888;
+    }
+    .meta-value {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1rem; color: #222222;
+    }
+
+    /* ── CONTENT SECTIONS ── */
+    .project-body { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+
+    /* Description */
+    .desc-section {
+      padding: 6rem 0 4rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .desc-section .section-label { margin-bottom: 2.5rem; }
+    .desc-text {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.25rem; line-height: 1.85; color: #333333;
+      max-width: 820px;
+    }
+    .desc-text + .desc-text { margin-top: 1.5rem; }
+
+    /* Gallery */
+    .gallery-section { padding: 4rem 0; }
+    .gallery-section .section-label { margin-bottom: 2.5rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 0.8rem;
+    }
+    .gallery-item {
+      overflow: hidden; position: relative;
+      background: #e8e8e6;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .gallery-item:hover img { transform: scale(1.03); }
+    .gallery-item.large { grid-row: span 2; }
+    .gallery-item.tall { aspect-ratio: 4/3; }
+    .gallery-item.wide { aspect-ratio: 16/9; }
+
+    /* PDF */
+    .pdf-section {
+      padding: 4rem 0 6rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .pdf-section .section-label { margin-bottom: 2rem; }
+    .pdf-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .pdf-title-text {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.4rem; font-weight: 700; color: #111111;
+    }
+    .pdf-download {
+      font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #111111; text-decoration: none;
+      border: 1px solid rgba(0,0,0,0.35);
+      padding: 0.5rem 1.1rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .pdf-download::before { content: '↓'; font-family: monospace; }
+    .pdf-download:hover { background: #111111; color: #f9f9f7; }
+    .pdf-embed-wrap {
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #f0f0ee;
+    }
+    .pdf-embed-wrap iframe {
+      width: 100%; height: 820px;
+      border: none; display: block;
+    }
+
+    /* Footer */
+    .project-footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .project-footer span {
+      font-family: 'Syne', sans-serif; font-size: 0.68rem;
+      letter-spacing: 0.15em; color: #888888; opacity: 0.45;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      .project-nav { padding: 1rem 1.5rem; }
+      .project-hero { padding: 0 1.5rem 3.5rem; }
+      .project-body { padding: 0 1.5rem; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .gallery-item.large { grid-row: span 1; }
+      .pdf-embed-wrap iframe { height: 500px; }
+      .project-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="project-nav">
+    <a class="back-link" href="index.html">Back</a>
+    <span class="project-nav-name">Gabi de Sá</span>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="project-hero">
+    <div class="project-hero-bg"></div>
+    <div class="project-hero-content">
+      <div class="project-tag">03 / Research · Economic-Ecological Modeling</div>
+      <h1 class="project-title">
+        Balancing<br><em>the Scales</em>
+      </h1>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Topic</span>
+          <span class="meta-value">Tourism & Biodiversity in the Galápagos Islands</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Methods</span>
+          <span class="meta-value">LOESS Regression · Multi-Objective Optimization · Panel Dataset Construction</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scope</span>
+          <span class="meta-value">60-year panel dataset</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-body">
+
+    <!-- Description -->
+    <div class="desc-section reveal">
+      <div class="section-label">Overview</div>
+      <p class="desc-text">
+        The Galápagos face a structural paradox: tourism generates ~50% of GDP and 71% of employment, yet unchecked growth degrades the biodiversity that makes the islands worth visiting. Visitor arrivals grew from 18,000 in 1985 to approximately 280,000 by 2024, well past UNESCO's nominal zero-growth cap. Despite formal protections, the park received renewed "In Danger" warnings in 2023. Prior research treated economic and ecological impacts separately or used single-year snapshots. This project is the <strong>first</strong> to integrate a six-decade longitudinal panel with multi-objective optimization to find an empirically grounded carrying-capacity threshold.
+      </p>
+
+      <p class="desc-text">
+        The core methodological challenge was dataset construction. No single continuous series exists for most variables of interest. The panel (1960–2024) was assembled from heterogeneous sources: visitor arrivals from Observatorio de Galápagos; resident population via census anchors with exponential interpolation; economic variables calibrated using Taylor et al. (2003, 2009) CGE/SAM elasticities (the only available structural priors, given no continuous wage series exists); and wildlife populations for four focal species (Galápagos penguins, flightless cormorants, blue-footed boobies, and sea lions) reconstructed by anchoring to known census years with exponential interpolation and multiplicative ENSO shocks at documented events (1982–83, 1997–98, 2023–24). All variables were normalized to [0,1] and gaps filled with cubic splines.
+      </p>
+
+      <p class="desc-text">
+        Analysis used LOESS nonlinear smoothing to identify inflection points in the economic and ecological indices against visitor count, and a multi-objective welfare function W(V) = α·E(V) + (1−α)·B(V) maximized over V across α ∈ [0.3, 0.7] to assess robustness to weighting preferences. Net income per visitor was found to plateau around 160,000 visitors/year; wildlife population indices deteriorate sharply above ~220,000. The welfare-maximizing threshold is approximately 180,000–210,000 visitors/year, roughly 30–40% below current levels, and is robust across all tested weighting schemes.
+      </p>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section reveal d1">
+      <div class="section-label">Field Work</div>
+      <div class="gallery-grid">
+        <div class="gallery-item large">
+          <img src="images/galapagos/photo1.jpg" alt="Galápagos field work">
+        </div>
+        <div class="gallery-item tall">
+          <img src="images/galapagos/photo2.jpg" alt="Galápagos field work">
+        </div>
+        <div class="gallery-item tall">
+          <img src="images/galapagos/photo4.jpg" alt="Galápagos field work">
+        </div>
+        <div class="gallery-item large">
+          <img src="images/galapagos/photo5.jpg" alt="Galápagos field work">
+        </div>
+        <div class="gallery-item large">
+          <img src="images/galapagos/photo6.jpg" alt="Galápagos field work">
+        </div>
+      </div>
+    </div>
+
+    <!-- PDF -->
+    <div class="pdf-section reveal d2">
+      <div class="section-label">Paper</div>
+      <div class="pdf-header">
+        <span class="pdf-title-text">Balancing the Scales</span>
+        <a class="pdf-download" href="balancing-the-scales.pdf" download>Download PDF</a>
+      </div>
+      <div class="pdf-embed-wrap">
+        <iframe src="balancing-the-scales.pdf" title="Balancing the Scales — Full Paper"></iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="project-footer">
+    <span>© 2025 Gabriela de Sá</span>
+    <span>web.stanford.edu/~gabisa</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
