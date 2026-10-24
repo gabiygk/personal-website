@@ -3,424 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gendered Language & Dating Platforms — Gabi de Sá</title>
+  <title>Gendered Language in Dating Platforms · Gabriela de Sá</title>
+  <meta name="description" content="Classifying gendered linguistic patterns in 60,000 OkCupid profiles with NLP and interpretable models.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Syne:wght@400..800&family=Crimson+Pro:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body { overflow-x: hidden; }
-
-    .project-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1.2rem 3rem;
-      display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(to bottom, rgba(249,249,247,0.97) 0%, transparent 100%);
-    }
-    .back-link {
-      font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: #888888; text-decoration: none; transition: color 0.2s;
-      display: flex; align-items: center; gap: 0.6rem;
-    }
-    .back-link::before { content: '←'; font-family: monospace; }
-    .back-link:hover { color: #111111; }
-    .project-nav-name {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.82rem; letter-spacing: 0.22em; text-transform: uppercase;
-      color: #111111;
-    }
-
-    /* ── HERO ── */
-    .project-hero {
-      min-height: 60vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 4rem 5rem;
-      position: relative; overflow: hidden;
-      background: var(--bg);
-    }
-    .project-hero-bg {
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 20% 60%, rgba(0,0,0,0.03) 0%, transparent 70%),
-        var(--bg);
-    }
-    .project-hero-bg::after {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
-      background-size: 64px 64px;
-    }
-    .project-hero-content { position: relative; z-index: 1; margin-top: auto; }
-    .project-tag {
-      font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.32em; text-transform: uppercase; color: #111111;
-      margin-bottom: 1.5rem;
-      display: flex; align-items: center; gap: 1rem;
-    }
-    .project-tag::before {
-      content: ''; display: block;
-      width: 40px; height: 1px; background: #111111;
-    }
-    .project-title {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.8rem, 7vw, 7rem);
-      font-weight: 900; line-height: 0.92; letter-spacing: -0.03em;
-      color: #111111; margin-bottom: 2rem;
-    }
-    .project-title em { font-style: italic; }
-    .project-meta {
-      display: flex; gap: 3rem; flex-wrap: wrap; align-items: flex-start;
-    }
-    .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
-    .meta-label {
-      font-family: 'Syne', sans-serif; font-size: 0.63rem; font-weight: 700;
-      letter-spacing: 0.26em; text-transform: uppercase; color: #888888;
-    }
-    .meta-value {
-      font-family: 'Crimson Pro', Georgia, serif;
-      font-size: 1rem; color: #222222;
-    }
-
-    /* ── CONTENT ── */
-    .project-body { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
-
-    .desc-section {
-      padding: 6rem 0 4rem;
-      border-top: 1px solid rgba(0,0,0,0.08);
-    }
-    .desc-section .section-label { margin-bottom: 2.5rem; }
-    .desc-text {
-      font-family: 'Crimson Pro', Georgia, serif;
-      font-size: 1.25rem; line-height: 1.85; color: #333333;
-      max-width: 820px;
-    }
-    .desc-text + .desc-text { margin-top: 1.5rem; }
-
-    /* ── THEORY PILLS ── */
-    .theory-section { padding: 0 0 4rem; }
-    .theory-section .section-label { margin-bottom: 2rem; }
-    .theory-grid {
-      display: flex; flex-wrap: wrap; gap: 0.7rem;
-    }
-    .theory-pill {
-      font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(0,0,0,0.15);
-      color: #555555; border-radius: 2px;
-    }
-
-    /* ── VIDEO ── */
-    .video-section {
-      padding: 4rem 0;
-      border-top: 1px solid rgba(0,0,0,0.08);
-    }
-    .video-section .section-label { margin-bottom: 2rem; }
-    .video-wrap {
-      position: relative; width: 100%;
-      padding-bottom: 56.25%; /* 16:9 */
-      background: #111111;
-    }
-    .video-wrap iframe {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; border: none;
-    }
-
-    /* ── GITHUB ── */
-    .github-section {
-      padding: 4rem 0 6rem;
-      border-top: 1px solid rgba(0,0,0,0.08);
-    }
-    .github-section .section-label { margin-bottom: 2rem; }
-    .github-card {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 2rem 2.5rem;
-      border: 1px solid rgba(0,0,0,0.1);
-      background: var(--surface);
-      flex-wrap: wrap; gap: 1.5rem;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .github-card:hover {
-      border-color: rgba(0,0,0,0.3);
-      transform: translateY(-3px);
-    }
-    .github-card-left { display: flex; flex-direction: column; gap: 0.4rem; }
-    .github-repo-name {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.35rem; font-weight: 700; color: #111111;
-    }
-    .github-repo-desc {
-      font-family: 'Crimson Pro', Georgia, serif;
-      font-size: 1rem; color: #888888; font-style: italic;
-    }
-    .github-link {
-      font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: #111111; text-decoration: none;
-      border: 1px solid rgba(0,0,0,0.35);
-      padding: 0.5rem 1.1rem;
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      white-space: nowrap;
-      transition: background 0.2s, color 0.2s;
-    }
-    .github-link::before { content: '↗'; font-family: monospace; }
-    .github-link:hover { background: #111111; color: #f9f9f7; }
-
-    /* ── FOOTER ── */
-    .project-footer {
-      padding: 2rem 4rem;
-      border-top: 1px solid rgba(0,0,0,0.08);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .project-footer span {
-      font-family: 'Syne', sans-serif; font-size: 0.68rem;
-      letter-spacing: 0.15em; color: #888888; opacity: 0.45;
-    }
-
-    /* ── BOOKS ── */
-    .books-row {
-      display: flex; gap: 3.5rem; flex-wrap: wrap;
-      margin-top: 3rem;
-      perspective: 1000px;
-    }
-    .book-item {
-      display: flex; flex-direction: column; gap: 1.2rem;
-      width: 180px; flex-shrink: 0;
-    }
-    .book-cover-wrap {
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateY(-8deg) rotateX(2deg);
-      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
-                  box-shadow 0.5s cubic-bezier(0.16,1,0.3,1);
-      box-shadow:
-        -6px 6px 20px rgba(0,0,0,0.18),
-        -2px 2px 6px rgba(0,0,0,0.12);
-      border-radius: 2px;
-      cursor: default;
-    }
-    .book-cover-wrap:hover {
-      transform: rotateY(0deg) rotateX(0deg) translateY(-8px);
-      box-shadow:
-        0px 24px 40px rgba(0,0,0,0.2),
-        0px 8px 16px rgba(0,0,0,0.1);
-    }
-    /* spine illusion */
-    .book-cover-wrap::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 14px;
-      background: linear-gradient(
-        to right,
-        rgba(0,0,0,0.22) 0%,
-        rgba(0,0,0,0.08) 60%,
-        transparent 100%
-      );
-      z-index: 2;
-      border-radius: 2px 0 0 2px;
-    }
-    .book-cover-wrap img {
-      display: block; width: 180px;
-      aspect-ratio: 2/3; object-fit: cover;
-      border-radius: 2px;
-    }
-    .book-info { padding: 0 0.1rem; }
-    .book-title {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1rem; font-weight: 700;
-      color: #111111; line-height: 1.3;
-      margin-bottom: 0.2rem;
-    }
-    .book-author {
-      font-family: 'Syne', sans-serif; font-size: 0.65rem;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: #888888;
-    }
-    .book-note {
-      font-family: 'Crimson Pro', Georgia, serif;
-      font-size: 0.9rem; font-style: italic;
-      color: #888888; line-height: 1.5;
-      margin-top: 0.5rem;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 800px) {
-      .project-nav { padding: 1rem 1.5rem; }
-      .project-hero { padding: 0 1.5rem 3.5rem; }
-      .project-body { padding: 0 1.5rem; }
-      .github-card { flex-direction: column; align-items: flex-start; }
-      .project-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css?v=10">
 </head>
 <body>
 
-  <nav class="project-nav">
-    <a class="back-link" href="index.html">Back</a>
-    <span class="project-nav-name">Gabi de Sá</span>
-  </nav>
+  <!-- ═══ NAV ═══ -->
+  <header class="nav">
+    <div class="container">
+      <a class="wordmark" href="index.html">Gabriela de Sá</a>
+      <div class="nav-right">
+        <ul class="nav-links t-nav">
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#work">Work</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+        </ul>
+        <div class="nav-buttons">
+          <a class="btn btn-outline" href="https://linkedin.com/in/gabi-sa/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn btn-solid" href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <!-- ═══ HERO ═══ -->
-  <div class="project-hero">
-    <div class="project-hero-bg"></div>
-    <div class="project-hero-content">
-      <div class="project-tag">04 / Research · NLP · Social Theory</div>
-      <h1 class="project-title">
-        Gendered Language<br><em>in Dating Platforms</em>
-      </h1>
-      <div class="project-meta">
-        <div class="meta-item">
-          <span class="meta-label">Dataset</span>
-          <span class="meta-value">60,000-profile OkCupid corpus</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Methods</span>
-          <span class="meta-value">NLP · Topic Modeling · Supervised Classification</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Field</span>
-          <span class="meta-value">Computational Social Science</span>
+  <section class="p-hero">
+    <div class="container">
+      <div class="p-hero-main">
+        <a class="p-back t-nav" href="index.html#work">← selected work</a>
+        <h1 class="t-headline">gendered language in dating platforms</h1>
+        <p class="t-description">what a classifier’s feature weights reveal about how gender shapes the way people describe themselves.</p>
+      </div>
+      <div class="p-side">
+      <ul class="p-meta">
+        <li><span class="t-label">dataset</span><span>60,000-profile okcupid corpus</span></li>
+        <li><span class="t-label">methods</span><span>nlp · topic modeling · supervised classification</span></li>
+        <li><span class="t-label">field</span><span>computational social science</span></li>
+      </ul>
+        <a class="btn btn-outline p-action" href="https://github.com/gabiygk/okcupid-analysis" target="_blank" rel="noopener">view on github</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section light">
+    <div class="container p-grid">
+      <p class="section-label">overview</p>
+      <div>
+        <div class="p-text t-serif-reading">
+          <p>Online dating profiles are structured free-text self-descriptions generated under mild length and topic constraints, making them a reasonably controlled corpus for studying systematic variation in language use across demographic groups. This project uses the OkCupid 60k Profiles dataset (~60,000 anonymized Bay Area profiles, ~70% under 35, ~66% college-educated) to ask whether binary gender can be predicted from free-text self-description alone using interpretable linear models, and what the feature weights of a trained classifier reveal about the statistical structure of gendered language at scale.</p>
+          <p>Ten essay fields per profile are concatenated and normalized (lowercased, stripped to alphabetic characters), with identical preprocessing applied at training and inference to prevent transformation leakage. The core model is a binary Logistic Regression over a TF-IDF feature space, chosen over higher-capacity alternatives because coefficient magnitudes are directly interpretable as evidence weights, allowing the model itself to serve as a lexicon of gendered language. The TF-IDF vectorizer captures term importance relative to document frequency, surfacing gender-predictive vocabulary more reliably than raw counts. Male-predictive terms cluster around competence and autonomy (software, engineer, motorcycle); female-predictive terms around relationality and warmth (love, family, dancing). Both artifacts are serialized via joblib and loaded at runtime into a Flask/Gunicorn web interface, where users submit free text and receive class probabilities, with the live demo itself operationalizing the core finding. High accuracy on single-sentence inputs confirms gendered self-presentation is embedded at the level of word choice, not topic selection.</p>
+          <p>Two complementary analyses extend this result. NMF topic modeling (<span class="keep-case">k=12</span>) shows women overindex on “Warmth” and “Aesthetics” topics; men on “Outdoors” and “Entertainment.” NRC Lexicon emotion scoring finds women’s profiles average 6.5 emotional words versus 4.1 for men, a ~58% gap holding across all eight emotion subcategories. Together, these methods triangulate the same underlying pattern: gender shapes linguistic self-presentation in ways consistent, pervasive, and recoverable by a model with no inputs beyond text.</p>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="project-body">
-
-    <!-- Description -->
-    <div class="desc-section reveal">
-      <div class="section-label">Overview</div>
-      <p class="desc-text">
-        Online dating profiles are structured free-text self-descriptions generated under 
-        mild length and topic constraints, making them a reasonably 
-        controlled corpus for studying systematic variation in language use across demographic 
-        groups. 
-        This project uses the OkCupid 60k Profiles dataset (~60,000 anonymized Bay Area 
-        profiles, ~70% under 35, ~66% college-educated) to ask whether binary gender can be 
-        predicted from free-text self-description alone using interpretable linear models, 
-        and what the feature weights of a trained classifier reveal about the statistical 
-        structure of gendered language at scale.
-      </p>
-      <p class="desc-text">
-        Ten essay fields per profile are concatenated and normalized (lowercased, 
-        stripped to alphabetic characters), with identical preprocessing applied at 
-        training and inference to prevent transformation leakage. 
-        The core model is a binary Logistic Regression over a TF-IDF feature space, 
-        chosen over higher-capacity alternatives because coefficient magnitudes are 
-        directly interpretable as evidence weights, allowing the model itself to serve as a 
-        lexicon of gendered language. The TF-IDF vectorizer captures term importance relative 
-        to document frequency, surfacing gender-predictive vocabulary more reliably than raw 
-        counts. Male-predictive terms cluster around competence and autonomy (software, 
-        engineer, motorcycle); female-predictive terms around relationality and warmth 
-        (love, family, dancing). Both artifacts are serialized via joblib and loaded at 
-        runtime into a Flask/Gunicorn web interface, where users submit free text and 
-        receive class probabilities, with the live demo itself operationalizing the core 
-        finding. High accuracy on single-sentence inputs confirms gendered self-presentation 
-        is embedded at the level of word choice, not topic selection.
-      </p>
-      <p class="desc-text">
-        Two complementary analyses extend this result. 
-        NMF topic modeling (k=12) shows women overindex on "Warmth" and "Aesthetics" topics; 
-        men on "Outdoors" and "Entertainment." NRC Lexicon emotion scoring finds women's profiles 
-        average 6.5 emotional words versus 4.1 for men, a ~58% gap holding across all eight emotion 
-        subcategories. Together, these methods triangulate the same underlying pattern: 
-        gender shapes linguistic self-presentation in ways consistent, pervasive, and 
-        recoverable by a model with no inputs beyond text.
-      </p>
-    </div>
-
-    <!-- Theory -->
-    <div class="theory-section reveal d1">
-      <div class="section-label">Theoretical Framework</div>
-      <div class="theory-grid">
-        <span class="theory-pill">Judith Butler</span>
-        <span class="theory-pill">Eva Illouz</span>
-        <span class="theory-pill">Ferrara &amp; Vergara</span>
-        <span class="theory-pill">Heterosexual Norm Formation</span>
-        <span class="theory-pill">Symbolic Interactionism</span>
-        <span class="theory-pill">Platform Studies</span>
-      </div>
-      <div class="books-row">
-        <div class="book-item">
-          <div class="book-cover-wrap">
-            <img src="images/okcupid/book1.jpg" alt="Gender Trouble — Judith Butler">
+  <section class="p-section gray">
+    <div class="container p-grid">
+      <p class="section-label">theoretical framework</p>
+      <div>
+        <ul class="rows">
+          <li><span>Judith Butler</span><span class="muted">gender as performance</span></li>
+          <li><span>Eva Illouz</span><span class="muted">love and emotional life under capitalism</span></li>
+          <li><span>Ferrara &amp; Vergara</span><span class="muted">gendered self-presentation online</span></li>
+          <li><span>heterosexual norm formation</span><span class="muted">social theory</span></li>
+          <li><span>symbolic interactionism</span><span class="muted">social theory</span></li>
+          <li><span>platform studies</span><span class="muted">media theory</span></li>
+        </ul>
+        <div class="books">
+          <div class="book">
+            <img src="images/okcupid/book1.jpg" alt="Gender Trouble by Judith Butler">
+            <div>
+              <p class="tile-title">gender trouble</p>
+              <p class="section-label" style="margin:0;">judith butler</p>
+              <p class="muted">Gender as performance: the theoretical backbone for reading linguistic self-presentation as enactment, not essence.</p>
+            </div>
           </div>
-          <div class="book-info">
-            <div class="book-title">Gender Trouble</div>
-            <div class="book-author">Judith Butler</div>
-            <div class="book-note">Gender as performance: the theoretical backbone for reading linguistic self-presentation as enactment, not essence.</div>
-          </div>
-        </div>
-        <div class="book-item">
-          <div class="book-cover-wrap">
-            <img src="images/okcupid/book2.jpg" alt="Why Love Hurts — Eva Illouz">
-          </div>
-          <div class="book-info">
-            <div class="book-title">Why Love Hurts</div>
-            <div class="book-author">Eva Illouz</div>
-            <div class="book-note">How capitalism and market logic shape romantic life: key to reading dating platforms as structured emotional markets.</div>
+          <div class="book">
+            <img src="images/okcupid/book2.jpg" alt="Why Love Hurts by Eva Illouz">
+            <div>
+              <p class="tile-title">why love hurts</p>
+              <p class="section-label" style="margin:0;">eva illouz</p>
+              <p class="muted">How capitalism and market logic shape romantic life: key to reading dating platforms as structured emotional markets.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Video -->
-    <div class="video-section reveal d2">
-      <div class="section-label">Presentation</div>
-      <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/qQy7Qh_Sb4c"
-          title="Gendered Language & Dating Platforms — Presentation"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-
-    <!-- Classifier Demo -->
-    <div class="demo-section reveal d3">
-      <div class="section-label">Try the Classifier</div>
-      <iframe
-        src="https://okcupid-analysis.onrender.com"
-        title="Gender Language Classifier Demo"
-        style="width:100%; height:520px; border:1px solid rgba(0,0,0,0.1); border-radius:2px; display:block;"
-        loading="lazy">
-      </iframe>
-      <p style="font-family:'Syne',sans-serif; font-size:0.65rem; letter-spacing:0.12em; color:#aaaaaa; margin-top:0.75rem;">
-        Hosted on Render free tier — may take ~50 seconds to wake up on first load.
-      </p>
-    </div>
-
-    <!-- GitHub -->
-    <div class="github-section reveal d4">
-      <div class="section-label">Code</div>
-      <div class="github-card">
-        <div class="github-card-left">
-          <span class="github-repo-name">okcupid-analysis</span>
-          <span class="github-repo-desc">Full pipeline; feature engineering, topic modeling, classifier</span>
+  <section class="p-section dark">
+    <div class="container p-grid">
+      <p class="section-label">presentation</p>
+      <div>
+        <div class="media-16x9 frame">
+          <iframe src="https://www.youtube.com/embed/qQy7Qh_Sb4c" title="Gendered Language and Dating Platforms, presentation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
-        <a class="github-link" href="https://github.com/gabiygk/okcupid-analysis" target="_blank">
-          View on GitHub
-        </a>
       </div>
     </div>
+  </section>
 
-  </div>
+  <section class="p-section light">
+    <div class="container p-grid">
+      <p class="section-label">try the classifier</p>
+      <div>
+        <iframe class="embed frame" src="https://okcupid-analysis.onrender.com" title="Gender language classifier demo" style="height:560px;" loading="lazy"></iframe>
+        <p class="note">hosted on render’s free tier, so it may take ~50 seconds to wake up on first load.</p>
+      </div>
+    </div>
+  </section>
 
-  <footer class="project-footer">
-    <span>© 2025 Gabriela de Sá</span>
-    <span>web.stanford.edu/~gabisa</span>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-cols">
+        <div>
+          <h3 class="t-nav">Contact</h3>
+          <ul><li><a href="mailto:gabisaemails@gmail.com">gabisaemails[at]gmail.com</a></li></ul>
+        </div>
+        <div>
+          <h3 class="t-nav">Elsewhere</h3>
+          <ul>
+            <li><a href="https://linkedin.com/in/gabi-sa/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/gabiygk" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="t-nav">Projects</h3>
+          <ul>
+            <li><a href="galapagos.html">Galápagos</a></li>
+            <li><a href="okcupid.html">Gendered language</a></li>
+            <li><a href="linkedin.html">LinkedIn Spark</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="t-nav">Based in</h3>
+          <ul><li>New York · Tokyo · SF</li></ul>
+        </div>
+      </div>
+      <div class="footer-base">
+        <span>© 2026 Gabriela de Sá</span>
+        <span>web.stanford.edu/~gabisa</span>
+      </div>
+    </div>
   </footer>
-
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.05 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
 
 </body>
 </html>
